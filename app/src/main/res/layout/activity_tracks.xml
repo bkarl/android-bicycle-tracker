@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.bk.bicycletracker.ActivityTracks"
+    android:fitsSystemWindows="true">
+
+
+    <TextView
+        android:id="@+id/headlineDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:text="This week"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18pt"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@+id/headlineDistance"
+        android:id="@+id/txtDistance"
+        android:textSize="18pt"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/barchart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtDistance"
+        android:layout_marginBottom="60dp"
+        android:layout_centerVertical="true"/>
+
+
+</RelativeLayout>

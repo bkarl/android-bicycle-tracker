@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/settingsTile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Weekly goal (km)" />
+
+    <EditText
+        android:id="@+id/settingsGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textLicense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Licenses"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/licenseLauncher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/licenseLauncher"
+        android:textColorLink="@color/design_default_color_primary"
+        android:clickable="true"
+        android:linksClickable="true"/>
+
+    <TextView
+        android:id="@+id/licenseBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:linksClickable="true"
+        android:text="@string/licenseBackground"
+        android:textColorLink="@color/design_default_color_primary" />
+
+</LinearLayout>

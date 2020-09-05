@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bk.bicycletracker.FragmentGraph">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Week"
+        android:id="@+id/headlineDistanceWeek"
+        android:textStyle="bold"
+        android:focusable="true"
+        android:textSize="18pt"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@+id/headlineDistanceWeek"
+        android:id="@+id/txtDistanceWeek"
+        android:textSize="18pt"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/txtDistanceWeek"
+        android:layout_marginBottom="60dp"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>
