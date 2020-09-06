@@ -33,6 +33,11 @@ class TrackDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    public TrackDatabaseHelper(Context context, boolean createTemporaryDatabase) {
+        //if name is null the database is temporary. important for testing.
+        super(context, null, null, DATABASE_VERSION);
+    }
+
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES_LOCATION);
         db.execSQL(SQL_CREATE_ENTRIES_TRACKS);
