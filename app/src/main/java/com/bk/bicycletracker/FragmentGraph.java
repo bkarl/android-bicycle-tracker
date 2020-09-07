@@ -82,7 +82,7 @@ public class FragmentGraph extends Fragment {
         List<BarEntry> entries = new ArrayList<BarEntry>();
         float totalWeek = 0;
         final String[] days = new String[7];
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); //TODO: set according to locale
 
         for (int i = 0; i < 7; i++)
         {

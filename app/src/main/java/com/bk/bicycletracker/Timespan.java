@@ -31,6 +31,8 @@ public class Timespan {
     }
 
     public void getTimespanForWeek(Calendar dayOfWeek){
+        dayOfWeek.setFirstDayOfWeek(Calendar.MONDAY); //TODO: set according to locale
+
         //calculate day span
         dayOfWeek.set(Calendar.SECOND, dayOfWeek.getActualMinimum(Calendar.SECOND));
         dayOfWeek.set(Calendar.MINUTE, dayOfWeek.getActualMinimum(Calendar.MINUTE));
@@ -42,7 +44,7 @@ public class Timespan {
         dayOfWeek.set(Calendar.SECOND, dayOfWeek.getActualMaximum(Calendar.SECOND));
         dayOfWeek.set(Calendar.MINUTE, dayOfWeek.getActualMaximum(Calendar.MINUTE));
         dayOfWeek.set(Calendar.HOUR_OF_DAY, dayOfWeek.getActualMaximum(Calendar.HOUR_OF_DAY));
-        dayOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        dayOfWeek.add(Calendar.DATE, 6);
 
         unixTimeMax = dayOfWeek.getTimeInMillis()/1000;
     }
