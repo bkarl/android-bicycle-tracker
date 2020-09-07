@@ -32,6 +32,7 @@ public class TrackDatabaseHelperTest {
                 TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME};
 
         assertArrayEquals(c.getColumnNames(), columNames);
+        assertEquals(c.getCount(), 0);
     }
 
     private void checkTracksTableCreated(SQLiteDatabase database) {
@@ -42,6 +43,7 @@ public class TrackDatabaseHelperTest {
                 TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME,};
 
         assertArrayEquals(c.getColumnNames(), columNames);
+        assertEquals(c.getCount(), 0);
     }
 
     private Cursor queryDatabaseForTable(SQLiteDatabase database, String tableName) {
