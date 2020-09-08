@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (v.getId() == R.id.btnTracks)
             {
-               // Intent i = new Intent(getApplicationContext(), ActivityTracks.class);
                 Intent i = new Intent(getApplicationContext(), TracksTabbed.class);
                 startActivityForResult(i, 0);
             }
