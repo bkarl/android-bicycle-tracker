@@ -30,10 +30,6 @@ public class LoggingService extends Service {
     private static final int LOCATION_INTERVAL = 1000;
     private static final float LOCATION_DISTANCE = 10f;
 
-    private TrackDatabaseHelper mDB;
-
-    private long currentTrackID = 0;
-
     LocationListener locationListener;
 
     private void initializeLocationManager() {
@@ -42,7 +38,6 @@ public class LoggingService extends Service {
             locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         }
     }
-
 
     public IBinder onBind(Intent intent) {
         return null;
@@ -58,12 +53,11 @@ public class LoggingService extends Service {
 
         createNotification();
         initializeLocationManager();
-        mDB = new TrackDatabaseHelper(getApplicationContext());
-        startLoggingService();
-        locationListener = new LocationListener(LocationManager.GPS_PROVIDER, mDB, currentTrackID);
+        SQLiteDatabase db = new TrackDatabaseHelper(getApplicationContext()).getWritableDatabase();
+        locationListener = new LocationListener(LocationManager.GPS_PROVIDER, db);
         requestLocationUpdates();
 
-        Toast.makeText(this, "service started, trackID " + currentTrackID, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "service started, trackID " + locationListener.getDistanceTracker().getCurrentTrackID(), Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
 
@@ -95,21 +89,6 @@ public class LoggingService extends Service {
         startForeground(NOTIFICATION_ID, notification);
     }
 
-    private void startLoggingService()
-    {
-        long unixTime = System.currentTimeMillis() / 1000L;
-
-        long primaryKey = 0;
-        SQLiteDatabase db = mDB.getWritableDatabase();
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME, unixTime);
-
-        // Insert the new row, returning the primary key value of the new row
-        primaryKey = db.insert(TrackDataBaseSchema.TrackEntry.TABLE_NAME, null, values);
-        currentTrackID = primaryKey;
-    }
 
     @Override
     public void onDestroy() {
