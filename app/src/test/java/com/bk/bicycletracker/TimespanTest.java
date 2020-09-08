@@ -1,10 +1,10 @@
 package com.bk.bicycletracker;
 
+import com.bk.bicycletracker.DatabaseOperations.Timespan;
+
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
 

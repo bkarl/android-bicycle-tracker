@@ -6,6 +6,7 @@ import android.location.LocationManager;
 
 import androidx.test.InstrumentationRegistry;
 
+import com.bk.bicycletracker.DatabaseOperations.DistanceCalculator;
 import com.bk.bicycletracker.DatabaseOperations.DistanceTracker;
 
 import org.junit.Before;

@@ -1,11 +1,12 @@
-package com.bk.bicycletracker;
+package com.bk.bicycletracker.DatabaseOperations;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 
-import com.bk.bicycletracker.DatabaseOperations.DistanceTracker;
+import com.bk.bicycletracker.TrackDataBaseSchema;
+import com.bk.bicycletracker.TrackDatabaseHelper;
 
 import java.util.Calendar;
 
