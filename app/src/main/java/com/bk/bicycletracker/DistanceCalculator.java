@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 
+import com.bk.bicycletracker.DatabaseOperations.DistanceTracker;
+
 import java.util.Calendar;
 
 public class DistanceCalculator {
@@ -21,6 +23,11 @@ public class DistanceCalculator {
     public DistanceCalculator(Context c)
     {
         database = new TrackDatabaseHelper(c).getReadableDatabase();
+    }
+
+    public DistanceCalculator(SQLiteDatabase db)
+    {
+        database = db;
     }
 
     public float getDistanceForDay(Calendar day)
