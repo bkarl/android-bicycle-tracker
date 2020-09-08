@@ -54,5 +54,9 @@ public class DistanceTracker {
         lastlocation = location;
     }
 
+    public float getDistance() {
+        return distance;
+    }
+
 
 }

@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 /**
  * Created by bk on 07.07.16.
  */
-class TrackDatabaseHelper extends SQLiteOpenHelper {
+public class TrackDatabaseHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Tracks.db";
