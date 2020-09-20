@@ -23,34 +23,12 @@ import java.util.List;
 
 public class FragmentTracks extends Fragment {
 
-
-    private TrackDatabaseHelper mDB;
-    private double lastLongitude;
-    private double lastLatitude;
-
     private TextView txtDistance;
-
-
-    private double overallDistance;
-
+    private double distanceWeekInKm;
+    private float weeklyGoal;
 
     public FragmentTracks() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentTracks.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentTracks newInstance(String param1, String param2) {
-        FragmentTracks fragment = new FragmentTracks();
-
-        return fragment;
     }
 
     @Override
@@ -59,52 +37,59 @@ public class FragmentTracks extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_tracks, container, false);
         txtDistance = (TextView) rootView.findViewById(R.id.txtDistance);
 
-
-        DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
-        double distanceWeek = distanceCalculator.getDistanceForWeek(Calendar.getInstance());
-        float weeklyGoal = getWeeklyDistanceFromSettings();
-
-        distanceWeek = Math.round(distanceWeek / 10.0) / 100.0;
-        txtDistance.setText(distanceWeek + " / " + weeklyGoal+ "km");
-
-        if (distanceWeek > 100.0f)
-            distanceWeek = 100.0f;
+        calculateDistanceOfCurrentWeek();
+        getWeeklyDistanceGoalFromSettings();
+        txtDistance.setText(distanceWeekInKm + " / " + weeklyGoal+ "km");
 
         PieChart pc = (PieChart) rootView.findViewById(R.id.barchart);
+        fillPieChart(pc);
+        return rootView;
+    }
+
+    private void fillPieChart(PieChart pc) {
         pc.setUsePercentValues(true);
 
         List<PieEntry> pieEntires = new ArrayList<>();
-        pieEntires.add(new PieEntry((float)distanceWeek, ""));
-        if (distanceWeek < weeklyGoal)
-            pieEntires.add(new PieEntry((float)(weeklyGoal-distanceWeek), ""));
+        pieEntires.add(new PieEntry((float)distanceWeekInKm, ""));
+        if (distanceWeekInKm < weeklyGoal)
+            pieEntires.add(new PieEntry((float)(weeklyGoal-distanceWeekInKm), ""));
 
         PieDataSet dataSet = new PieDataSet(pieEntires,"");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         PieData data = new PieData(dataSet);
 
-        double percentDone = (1.0f-(weeklyGoal-distanceWeek)/weeklyGoal)*100.0f;
+        double percentDone = (1.0f-(weeklyGoal-distanceWeekInKm)/weeklyGoal)*100.0f;
         percentDone =  Math.round(percentDone * 100.0) / 100.0;
         data.setDrawValues(false);
 
-        //Get the chart
         pc.setData(data);
         pc.setCenterText(percentDone+" %");
         pc.setRotationEnabled(false);
         pc.setCenterTextSize(34);
         pc.setDescription("");
         pc.invalidate();
-        return rootView;
     }
 
-    private float getWeeklyDistanceFromSettings()
+    private void calculateDistanceOfCurrentWeek() {
+        DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
+        distanceWeekInKm = distanceCalculator.getDistanceForWeek(Calendar.getInstance());
+        distanceWeekInKm = Math.round(distanceWeekInKm / 10.0) / 100.0;
+    }
+
+    private void getWeeklyDistanceGoalFromSettings()
     {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("BicycleTrackerPrefs",Context.MODE_PRIVATE);
-        return (float)sharedPref.getInt("weeklyGoal",100);
+        this.weeklyGoal = (float)sharedPref.getInt("weeklyGoal",100);
     }
 
     @Override
