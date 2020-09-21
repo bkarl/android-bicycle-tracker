@@ -39,6 +39,12 @@ public class DistanceCalculator {
         return calculateDistanceFromDatabaseResult(c);
     }
 
+    public float getTotalDistance()
+    {
+        Cursor c = queryWholeDatabase();
+        return calculateDistanceFromDatabaseResult(c);
+    }
+
     public float getDistanceForWeek(Calendar dayOfWeek)
     {
         Timespan timespan = new Timespan();
@@ -60,6 +66,19 @@ public class DistanceCalculator {
                 where,            // The values for the WHERE clause
                 null,
                 null,                                     // don't group the rows
+                null
+        );
+    }
+
+    private Cursor queryWholeDatabase()
+    {
+        return database.query(
+                TrackDataBaseSchema.LocationEntry.TABLE_NAME,
+                tableColumsForDistanceCalculation,
+                null,
+                null,
+                null,
+                null,
                 null
         );
     }

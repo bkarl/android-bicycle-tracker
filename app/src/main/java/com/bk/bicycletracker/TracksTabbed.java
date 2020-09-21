@@ -97,9 +97,11 @@ public class TracksTabbed extends AppCompatActivity {
                 case 0: {
                     return new FragmentTracks();
                 }
-                case 1:
-                {
+                case 1: {
                     return new FragmentGraph();
+                }
+                case 2: {
+                    return new FragmentTotal();
                 }
             }
 
@@ -110,7 +112,7 @@ public class TracksTabbed extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -120,6 +122,8 @@ public class TracksTabbed extends AppCompatActivity {
                     return "Goal";
                 case 1:
                     return "Week";
+                case 2:
+                    return "Total";
             }
             return null;
         }
