@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bk.bicycletracker.ActivityTracks"
     android:fitsSystemWindows="true">
-
 
     <TextView
         android:id="@+id/headlineDistance"
@@ -37,6 +35,4 @@
         android:layout_below="@+id/txtDistance"
         android:layout_marginBottom="60dp"
         android:layout_centerVertical="true"/>
-
-
 </RelativeLayout>
