@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.bk.bicycletracker.DatabaseOperations.DistanceCalculator;
 
-import java.util.Calendar;
-
 public class FragmentTotal extends Fragment {
 
     private TextView txtDistance;
