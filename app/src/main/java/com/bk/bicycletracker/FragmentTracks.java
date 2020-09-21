@@ -57,27 +57,7 @@ public class FragmentTracks extends Fragment {
     }
 
     private void fillPieChart(PieChart pc) {
-        pc.setUsePercentValues(true);
-
-        List<PieEntry> pieEntires = new ArrayList<>();
-        pieEntires.add(new PieEntry((float)distanceWeekInKm, ""));
-        if (distanceWeekInKm < weeklyGoal)
-            pieEntires.add(new PieEntry((float)(weeklyGoal-distanceWeekInKm), ""));
-
-        PieDataSet dataSet = new PieDataSet(pieEntires,"");
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        PieData data = new PieData(dataSet);
-
-        double percentDone = (1.0f-(weeklyGoal-distanceWeekInKm)/weeklyGoal)*100.0f;
-        percentDone =  Math.round(percentDone * 100.0) / 100.0;
-        data.setDrawValues(false);
-
-        pc.setData(data);
-        pc.setCenterText(percentDone+" %");
-        pc.setRotationEnabled(false);
-        pc.setCenterTextSize(34);
-        pc.setDescription("");
-        pc.invalidate();
+        new PieChartFiller(pc).fillWeeklyData(distanceWeekInKm, weeklyGoal);
     }
 
     private void calculateDistanceOfCurrentWeek() {
@@ -101,5 +81,4 @@ public class FragmentTracks extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
 }
