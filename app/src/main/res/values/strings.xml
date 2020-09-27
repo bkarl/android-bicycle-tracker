@@ -6,5 +6,7 @@
     <string name="channel_description">Notification channel for the Bicycle Tracker App</string>
     <string name="licenseLauncher">Launcher Icon by <a href="https://github.com/twitter/twemoji">Twitter</a> License <a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a></string>
     <string name="licenseBackground">Background Image by <a href="https://pixabay.com/de/photos/rennrad-zahnrad-vintage-tretlager-594164/">CC0 / Pixabay / markusspiske</a></string>
+    <string name="thisWeek">This week</string>
+    <string name="lastWeek">Last week</string>
 
 </resources>

@@ -17,7 +17,7 @@ public class PieChartFiller {
     }
 
     public void fillWeeklyData(double distanceWeekInKm, float weeklyGoal) {
-
+        pc.clear();
         List<PieEntry> pieEntires = new ArrayList<>();
         pieEntires.add(new PieEntry((float)distanceWeekInKm, ""));
         if (distanceWeekInKm < weeklyGoal)

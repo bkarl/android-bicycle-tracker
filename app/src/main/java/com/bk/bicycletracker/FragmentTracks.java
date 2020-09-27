@@ -5,30 +5,38 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bk.bicycletracker.DatabaseOperations.DistanceCalculator;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-public class FragmentTracks extends Fragment {
+public class FragmentTracks extends TimeDependentFragment {
+    private static final String TAG = "FragmentTracks";
 
     private TextView txtDistance;
     private double distanceWeekInKm;
     private float weeklyGoal;
+    private PieChart pc;
 
     public FragmentTracks() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void dateChanged(Calendar newDate) {
+        this.currentWeek = newDate;
+        calculateDistanceOfCurrentWeek();
+        updateTimeDependentStrings();
+        fillPieChart(pc);
     }
 
     @Override
@@ -44,16 +52,31 @@ public class FragmentTracks extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_tracks, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tracks_week_piechart, container, false);
         txtDistance = (TextView) rootView.findViewById(R.id.txtDistance);
-
-        calculateDistanceOfCurrentWeek();
+        txtWeekorDate  = (TextView) rootView.findViewById(R.id.headlineDistanceWeek);
         getWeeklyDistanceGoalFromSettings();
-        txtDistance.setText(distanceWeekInKm + " / " + weeklyGoal+ "km");
+        pc = (PieChart) rootView.findViewById(R.id.barchart);
 
-        PieChart pc = (PieChart) rootView.findViewById(R.id.barchart);
-        fillPieChart(pc);
+        final GestureDetector gesture = new GestureDetector(getActivity(), new SwipeGestureDetector(this));
+
+        pc.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return gesture.onTouchEvent(motionEvent);
+            }
+        });
+
+        this.dateChanged(this.currentWeek);
+
         return rootView;
+    }
+
+    @Override
+    protected void updateTimeDependentStrings()
+    {
+        super.updateTimeDependentStrings();
+        txtDistance.setText(distanceWeekInKm + " / " + weeklyGoal+ "km");
     }
 
     private void fillPieChart(PieChart pc) {
@@ -62,7 +85,7 @@ public class FragmentTracks extends Fragment {
 
     private void calculateDistanceOfCurrentWeek() {
         DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
-        distanceWeekInKm = distanceCalculator.getDistanceForWeek(Calendar.getInstance());
+        distanceWeekInKm = distanceCalculator.getDistanceForWeek(currentWeek);
         distanceWeekInKm = Math.round(distanceWeekInKm / 10.0) / 100.0;
     }
 
