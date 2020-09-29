@@ -18,15 +18,47 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txtDistanceTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_below="@+id/headlineDistanceTotal"
-        android:id="@+id/txtDistanceTotal"
+        android:layout_centerHorizontal="true"
+        android:paddingVertical="10px"
+        android:text=""
+        android:textSize="18pt"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtHeadlineTrackingSince"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDistanceTotal"
         android:textSize="18pt"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        />
+        android:text="Tracking since" />
+
+    <TextView
+        android:id="@+id/txtTrackingSince"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtHeadlineTrackingSince"
+        android:textSize="18pt"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/txtMeanPerDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTrackingSince"
+        android:layout_centerHorizontal="true"
+        android:paddingVertical="10px"
+        android:text=""
+        android:textSize="18pt"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

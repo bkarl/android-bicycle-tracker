@@ -9,6 +9,7 @@ import com.bk.bicycletracker.TrackDataBaseSchema;
 import com.bk.bicycletracker.TrackDatabaseHelper;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class DistanceCalculator {
 
@@ -19,7 +20,10 @@ public class DistanceCalculator {
             TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LONGITUDE,
             TrackDataBaseSchema.LocationEntry.COLUMN_NAME_ALTITUDE,
             TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TRACK_ID,
+            TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME
     };
+
+
 
     public DistanceCalculator(Context c)
     {
@@ -43,6 +47,19 @@ public class DistanceCalculator {
     {
         Cursor c = queryWholeDatabase();
         return calculateDistanceFromDatabaseResult(c);
+    }
+
+    public Calendar getTimeOfFirstTrackedLocation()
+    {
+        Cursor c = queryWholeDatabase();
+        if (c.getCount() == 0)
+            return Calendar.getInstance();
+        c.moveToFirst();
+
+        long unixtime = c.getLong(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME));
+        Calendar cal = new GregorianCalendar();
+        cal.setTimeInMillis(unixtime*1000);
+        return cal;
     }
 
     public float getDistanceForWeek(Calendar dayOfWeek)

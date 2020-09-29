@@ -11,11 +11,15 @@ import android.widget.TextView;
 
 import com.bk.bicycletracker.DatabaseOperations.DistanceCalculator;
 
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+
 public class FragmentTotal extends Fragment {
 
-    private TextView txtDistance;
+    private TextView txtDistance, txtTrackingSince, txtMeanPerDay;
     private double distanceTotalInKm;
-
+    private Calendar timeOfFirstTrack;
     public FragmentTotal() {
         // Required empty public constructor
     }
@@ -35,11 +39,27 @@ public class FragmentTotal extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tracks_total, container, false);
         txtDistance = (TextView) rootView.findViewById(R.id.txtDistanceTotal);
-
+        txtTrackingSince = (TextView) rootView.findViewById(R.id.txtTrackingSince);
+        txtMeanPerDay = (TextView) rootView.findViewById(R.id.txtMeanPerDay);
         calculateTotalDistance();
+        setTrackingSince();
+        setMeanPerDay();
         txtDistance.setText(distanceTotalInKm + " km");
 
         return rootView;
+    }
+
+    private void setTrackingSince() {
+        DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
+        timeOfFirstTrack= distanceCalculator.getTimeOfFirstTrackedLocation();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", java.util.Locale.getDefault());
+        txtTrackingSince.setText(format.format(timeOfFirstTrack.getTime()));
+    }
+
+    private void setMeanPerDay() {
+        long daysBetween = ChronoUnit.DAYS.between(timeOfFirstTrack.toInstant(), Calendar.getInstance().toInstant());
+        double meanPerDay = distanceTotalInKm / daysBetween;
+        txtMeanPerDay.setText(Math.round(meanPerDay * 100.0)/100.0 + " km / day");
     }
 
     private void calculateTotalDistance() {
