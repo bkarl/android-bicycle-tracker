@@ -33,19 +33,22 @@ public class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListene
                 return false;
             if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                //Log.i(TAG, "down up");
-                if (currentWeek.get(Calendar.WEEK_OF_YEAR) < Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)) {
-                    currentWeek.add(Calendar.DAY_OF_YEAR, +7);
 
+                Calendar now = Calendar.getInstance();
+                now.set(Calendar.DAY_OF_WEEK, now.getActualMaximum(Calendar.DAY_OF_WEEK));
+                //Log.i(TAG, "down up "+currentWeek.get(Calendar.WEEK_OF_YEAR)+" < "+now.get(Calendar.WEEK_OF_YEAR));
+                if (currentWeek.get(Calendar.WEEK_OF_YEAR) < now.get(Calendar.WEEK_OF_YEAR)) {
+                    currentWeek.add(Calendar.DAY_OF_YEAR, +7);
                 }
+
             } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                //Log.i(TAG, "up down");
                 currentWeek.add(Calendar.DAY_OF_YEAR, -7);
-
+                //Log.i(TAG, "up down "+currentWeek.toString());
             }
         } catch (Exception e) {
             // nothing
+            Log.i(TAG, e.toString());
         }
         callbackFragment.dateChanged(currentWeek);
         return super.onFling(e1, e2, velocityX, velocityY);
