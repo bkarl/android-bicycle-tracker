@@ -3,7 +3,10 @@ package com.bk.bicycletracker;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -43,7 +46,7 @@ public class FragmentGraph extends TimeDependentFragment {
     private void fillBarChart()
     {
         BarChartFiller barChartFiller = new BarChartFiller(barChart);
-        float totalWeek = barChartFiller.fillWeeklyData(new DistanceCalculator(getContext()));
+        float totalWeek = barChartFiller.fillWeeklyData(new DistanceCalculator(getContext()), this.currentWeek);
         txtDistanceWeek.setText(Math.round(totalWeek / 10.0)/100.0 + " km");
     }
 
@@ -51,6 +54,7 @@ public class FragmentGraph extends TimeDependentFragment {
     public void dateChanged(Calendar newDate) {
         this.currentWeek = newDate;
         updateTimeDependentStrings();
+        fillBarChart();
     }
 
     @Override
@@ -63,6 +67,15 @@ public class FragmentGraph extends TimeDependentFragment {
         barChart = (BarChart) rootView.findViewById(R.id.chart);
         txtDistanceWeek = (TextView) rootView.findViewById(R.id.txtDistanceWeek);
         fillBarChart();
+
+        final GestureDetector gesture = new GestureDetector(getActivity(), new SwipeGestureDetector(this));
+
+        barChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return gesture.onTouchEvent(motionEvent);
+            }
+        });
         return rootView;
     }
 

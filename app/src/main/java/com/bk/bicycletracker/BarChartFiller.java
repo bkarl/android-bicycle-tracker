@@ -25,20 +25,20 @@ public class BarChartFiller {
         this.barchart = barchart;
     }
 
-    public float fillWeeklyData(DistanceCalculator distanceCalculator) {
-        Calendar cal = Calendar.getInstance();
+    public float fillWeeklyData(DistanceCalculator distanceCalculator, Calendar week) {
+        barchart.clear();
         List<BarEntry> entries = new ArrayList<BarEntry>();
         float totalWeek = 0;
         final String[] days = new String[7];
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); //TODO: set according to locale
+        week.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); //TODO: set according to locale
 
         for (int i = 0; i < 7; i++)
         {
-            float trackDay = distanceCalculator.getDistanceForDay(cal);
-            days[i] = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
+            float trackDay = distanceCalculator.getDistanceForDay(week);
+            days[i] = week.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
             entries.add(new BarEntry(i, trackDay));
             totalWeek += trackDay;
-            cal.add(Calendar.DAY_OF_YEAR, 1);
+            week.add(Calendar.DAY_OF_YEAR, 1);
         }
 
         AxisValueFormatter formatter = new AxisValueFormatter() {
