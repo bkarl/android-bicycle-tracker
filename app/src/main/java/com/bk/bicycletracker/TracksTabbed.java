@@ -14,10 +14,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class TracksTabbed extends AppCompatActivity {
+    private static final String TAG = "TracksTabbed";
 
     /**
      * The {@link PagerAdapter} that will provide
@@ -95,10 +97,10 @@ public class TracksTabbed extends AppCompatActivity {
             switch (position)
             {
                 case 0: {
-                    return new FragmentTracks();
+                    return new FragmentPiechartWeek();
                 }
                 case 1: {
-                    return new FragmentGraph();
+                    return new FragmentBarChartWeek();
                 }
                 case 2: {
                     return new FragmentTotal();

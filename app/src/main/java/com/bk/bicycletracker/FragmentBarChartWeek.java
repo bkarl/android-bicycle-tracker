@@ -30,11 +30,11 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class FragmentGraph extends TimeDependentFragment {
+public class FragmentBarChartWeek extends TimeDependentFragment {
 
     private TextView txtDistanceWeek;
     private BarChart barChart;
-    public FragmentGraph() {
+    public FragmentBarChartWeek() {
         // Required empty public constructor
     }
 

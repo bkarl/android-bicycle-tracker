@@ -19,15 +19,15 @@ import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.Calendar;
 
-public class FragmentTracks extends TimeDependentFragment {
-    private static final String TAG = "FragmentTracks";
+public class FragmentPiechartWeek extends TimeDependentFragment {
+    private static final String TAG = "FragmentPiechartWeek";
 
     private TextView txtDistance;
     private double distanceWeekInKm;
     private float weeklyGoal;
     private PieChart pc;
 
-    public FragmentTracks() {
+    public FragmentPiechartWeek() {
         // Required empty public constructor
     }
 
