@@ -4,13 +4,14 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.bk.bicycletracker.DatabaseOperations.DistanceTracker;
 
 public class LocationListener implements android.location.LocationListener
 {
     private DistanceTracker distanceTracker;
-
+    private static final String TAG = "LocationListener";
     public DistanceTracker getDistanceTracker() {
         return distanceTracker;
     }
@@ -30,7 +31,11 @@ public class LocationListener implements android.location.LocationListener
 
     @Override
     public void onProviderDisabled(String provider) {
-        //Log.e(TAG, "onProviderDisabled: " + provider);
+        Log.i(TAG, "onProviderDisabled: " + provider);
+    }
+
+    public void finishLogging() {
+        distanceTracker.commitAccumulatedTrack();
     }
 
     @Override

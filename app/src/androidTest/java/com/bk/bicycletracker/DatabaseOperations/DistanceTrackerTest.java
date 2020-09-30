@@ -39,7 +39,7 @@ public class DistanceTrackerTest {
         calendarNow = Calendar.getInstance();
         addTwoTestLocations();
 
-        assertEquals(expectedDistance, distanceTracker.getDistance(),0.001);
+        assertEquals(expectedDistance, distanceTracker.getTotalDistance(),0.001);
 
         Cursor c = queryDatabaseForTable(database, TrackDataBaseSchema.LocationEntry.TABLE_NAME);
         assertEquals(2, c.getCount());

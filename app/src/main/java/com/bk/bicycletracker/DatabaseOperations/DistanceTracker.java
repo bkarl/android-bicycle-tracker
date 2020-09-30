@@ -10,7 +10,7 @@ public class DistanceTracker {
 
     private long currentTrackID;
     private Location lastlocation;
-    private float distance = 0;
+    private float totalDistance = 0;
 
     public long getCurrentTrackID() {
         return currentTrackID;
@@ -49,13 +49,27 @@ public class DistanceTracker {
         if (lastlocation != null) {
             float result[] = new float[] {0,0,0};
             Location.distanceBetween(location.getLatitude(), location.getLongitude(), lastlocation.getLatitude(), lastlocation.getLongitude(), result);
-            distance += result[0];
+            totalDistance += result[0];
         }
         lastlocation = location;
     }
 
-    public float getDistance() {
-        return distance;
+    public void commitAccumulatedTrack() {
+        if (totalDistance == 0)
+            return;
+
+        long unixTime = System.currentTimeMillis() / 1000L;
+
+        ContentValues values = new ContentValues();
+        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TRACK_ID, currentTrackID);
+        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM, totalDistance);
+        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME, unixTime);
+
+        db.insert(TrackDataBaseSchema.TrackEntry.TABLE_NAME, null, values);
+    }
+
+    public float getTotalDistance() {
+        return totalDistance;
     }
 
 

@@ -23,7 +23,8 @@ public final class TrackDataBaseSchema {
 
     public static abstract class TrackEntry implements BaseColumns {
         public static final String TABLE_NAME = "recordedTracks";
+        public static final String COLUMN_NAME_TRACK_ID = "trackid";
         public static final String COLUMN_NAME_TIME = "time";
-
+        public static final String COLUMN_NAME_DISTANCE_KM = "distance_km";
     }
 }
