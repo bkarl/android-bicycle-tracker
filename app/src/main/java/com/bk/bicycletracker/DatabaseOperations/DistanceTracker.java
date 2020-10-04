@@ -3,10 +3,12 @@ package com.bk.bicycletracker.DatabaseOperations;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
+import android.util.Log;
 
 import com.bk.bicycletracker.TrackDataBaseSchema;
 
 public class DistanceTracker {
+    private static final String TAG = "DistanceTracker";
 
     private long currentTrackID;
     private Location lastlocation;
@@ -62,10 +64,11 @@ public class DistanceTracker {
 
         ContentValues values = new ContentValues();
         values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TRACK_ID, currentTrackID);
-        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM, totalDistance);
+        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM, totalDistance/1000.0f);
         values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME, unixTime);
 
-        db.insert(TrackDataBaseSchema.TrackEntry.TABLE_NAME, null, values);
+        db.update(TrackDataBaseSchema.TrackEntry.TABLE_NAME, values, "_id = ?", new String[]{Long.toString(currentTrackID)});
+        Log.d(TAG, "Commiting accumulated track "+totalDistance/1000.0f+" ID "+currentTrackID);
     }
 
     public float getTotalDistance() {
