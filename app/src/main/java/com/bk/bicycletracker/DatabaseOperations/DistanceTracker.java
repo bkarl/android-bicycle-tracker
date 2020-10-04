@@ -68,7 +68,7 @@ public class DistanceTracker {
         values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME, unixTime);
 
         db.update(TrackDataBaseSchema.TrackEntry.TABLE_NAME, values, "_id = ?", new String[]{Long.toString(currentTrackID)});
-        Log.d(TAG, "Commiting accumulated track "+totalDistance/1000.0f+" ID "+currentTrackID);
+        Log.d(TAG, "Committing accumulated track "+totalDistance/1000.0f+" ID "+currentTrackID);
     }
 
     public float getTotalDistance() {
