@@ -47,7 +47,7 @@ public class FragmentBarChartWeek extends TimeDependentFragment {
     {
         BarChartFiller barChartFiller = new BarChartFiller(barChart);
         float totalWeek = barChartFiller.fillWeeklyData(new DistanceCalculator(getContext()), (Calendar)this.currentWeek.clone());
-        txtDistanceWeek.setText(Math.round(totalWeek / 10.0)/100.0 + " km");
+        txtDistanceWeek.setText(Math.round(totalWeek * 100.0)/100.0 + " km");
     }
 
     @Override

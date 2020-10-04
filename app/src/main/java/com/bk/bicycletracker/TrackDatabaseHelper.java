@@ -11,7 +11,7 @@ import android.util.Log;
  */
 public class TrackDatabaseHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "Tracks.db";
 
     private static final String COMMA_SEP = ",";
@@ -27,9 +27,9 @@ public class TrackDatabaseHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES_TRACKS =
             "CREATE TABLE " + TrackDataBaseSchema.TrackEntry.TABLE_NAME + " (" +
                     TrackDataBaseSchema.TrackEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TRACK_ID+ " INTEGER" + COMMA_SEP +
-                    TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM+ " REAL" + COMMA_SEP+
-                    TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME+ " INTEGER" + " )";
+                    TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM + " REAL" + COMMA_SEP +
+                    TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START + " INTEGER" + COMMA_SEP +
+                    TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_END + " INTEGER )";
 
     public TrackDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

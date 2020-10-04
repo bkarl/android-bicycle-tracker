@@ -94,7 +94,7 @@ public class BarChartFiller {
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
             // write your logic here
-            return Math.round(value / 10.0)/100.0 + " km";
+            return Math.round(value * 100.0)/100.0 + " km";
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.bk.bicycletracker.DatabaseOperations;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,12 +16,10 @@ public class DistanceCalculator {
 
     SQLiteDatabase database;
 
-    private final String[] tableColumsForDistanceCalculation = {
-            TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LATITUDE,
-            TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LONGITUDE,
-            TrackDataBaseSchema.LocationEntry.COLUMN_NAME_ALTITUDE,
-            TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TRACK_ID,
-            TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME
+    private final String[] tableColumsForDistanceCalculation_n = {
+            TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START,
+            TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_END,
+            TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM
     };
 
 
@@ -56,7 +55,7 @@ public class DistanceCalculator {
             return Calendar.getInstance();
         c.moveToFirst();
 
-        long unixtime = c.getLong(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME));
+        long unixtime = c.getLong(c.getColumnIndexOrThrow(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START));
         Calendar cal = new GregorianCalendar();
         cal.setTimeInMillis(unixtime*1000);
         return cal;
@@ -77,9 +76,9 @@ public class DistanceCalculator {
         };
 
         return database.query(
-                TrackDataBaseSchema.LocationEntry.TABLE_NAME,  // The table to query
-                tableColumsForDistanceCalculation,                               // The columns to return
-                TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME+" >= ? AND "+TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TIME+" <= ?",  // The columns for the WHERE clause
+                TrackDataBaseSchema.TrackEntry.TABLE_NAME,  // The table to query
+                tableColumsForDistanceCalculation_n,                               // The columns to return
+                "(" + TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START+" >= ? AND "+TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_END+" <= ? )",  // The columns for the WHERE clause
                 where,            // The values for the WHERE clause
                 null,
                 null,                                     // don't group the rows
@@ -90,21 +89,17 @@ public class DistanceCalculator {
     private Cursor queryWholeDatabase()
     {
         return database.query(
-                TrackDataBaseSchema.LocationEntry.TABLE_NAME,
-                tableColumsForDistanceCalculation,
+                TrackDataBaseSchema.TrackEntry.TABLE_NAME,
+                tableColumsForDistanceCalculation_n,
                 null,
                 null,
                 null,
                 null,
-                null
+                TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START+" ASC"
         );
     }
 
     private float calculateDistanceFromDatabaseResult(Cursor c) {
-        double longitudeA;
-        double latitudeA;
-        double latitudeB;
-        double longitudeB;
 
         float distance = 0;
         c.moveToFirst();
@@ -112,38 +107,13 @@ public class DistanceCalculator {
         if (c.getCount() == 0)
             return 0;
 
-        long idA, idB;
-
-        longitudeA = c.getDouble(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LONGITUDE));
-        latitudeA = c.getDouble(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LATITUDE));
-        idA = c.getLong(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TRACK_ID));
-
-        c.moveToNext();
-        int add = 0;
-        float subdistance = 0;
         while (!c.isAfterLast())
         {
-            latitudeB = c.getDouble(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LATITUDE));
-            longitudeB = c.getDouble(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_LONGITUDE));
-            idB = c.getLong(c.getColumnIndexOrThrow(TrackDataBaseSchema.LocationEntry.COLUMN_NAME_TRACK_ID));
-
-            float result[] = new float[] {0,0,0};
-            // items.add(new OverlayItem("", "", new GeoPoint(latitudeA,longitudeA))); // Lat/Lon decimal degrees
-
-            Location.distanceBetween(latitudeA, longitudeA, latitudeB, longitudeB, result);
-            if (idA == idB)
-                distance += result[0];
-
-            longitudeA = longitudeB;
-            latitudeA = latitudeB;
-            idA = idB;
-
+            distance += c.getFloat(c.getColumnIndexOrThrow(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM));
             c.moveToNext();
         }
-        //distance += subdistance;//else
 
         c.close();
-
         return distance;
     }
 }

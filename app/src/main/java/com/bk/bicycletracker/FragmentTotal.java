@@ -65,7 +65,7 @@ public class FragmentTotal extends Fragment {
     private void calculateTotalDistance() {
         DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
         distanceTotalInKm = distanceCalculator.getTotalDistance();
-        distanceTotalInKm = Math.round(distanceTotalInKm / 10.0) / 100.0;
+        distanceTotalInKm = Math.round(distanceTotalInKm * 100.0) / 100.0;
     }
 
     @Override

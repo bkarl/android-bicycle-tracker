@@ -86,7 +86,7 @@ public class FragmentPiechartWeek extends TimeDependentFragment {
     private void calculateDistanceOfCurrentWeek() {
         DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
         distanceWeekInKm = distanceCalculator.getDistanceForWeek(currentWeek);
-        distanceWeekInKm = Math.round(distanceWeekInKm / 10.0) / 100.0;
+        distanceWeekInKm = Math.round(distanceWeekInKm * 100.0) / 100.0;
     }
 
     private void getWeeklyDistanceGoalFromSettings()

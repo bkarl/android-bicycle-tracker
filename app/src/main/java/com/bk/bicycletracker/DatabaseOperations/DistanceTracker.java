@@ -29,7 +29,7 @@ public class DistanceTracker {
         long unixTime = System.currentTimeMillis() / 1000L;
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME, unixTime);
+        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START, unixTime);
         // Insert the new row, returning the primary key value of the new row
         currentTrackID = db.insert(TrackDataBaseSchema.TrackEntry.TABLE_NAME, null, values);
     }
@@ -63,9 +63,8 @@ public class DistanceTracker {
         long unixTime = System.currentTimeMillis() / 1000L;
 
         ContentValues values = new ContentValues();
-        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TRACK_ID, currentTrackID);
         values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM, totalDistance/1000.0f);
-        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME, unixTime);
+        values.put(TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_END, unixTime);
 
         db.update(TrackDataBaseSchema.TrackEntry.TABLE_NAME, values, "_id = ?", new String[]{Long.toString(currentTrackID)});
         Log.d(TAG, "Committing accumulated track "+totalDistance/1000.0f+" ID "+currentTrackID);
