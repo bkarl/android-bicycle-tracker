@@ -40,7 +40,10 @@ public class TrackDatabaseHelperTest {
 
         String[] columNames = {
                 TrackDataBaseSchema.TrackEntry._ID,
-                TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME,};
+                TrackDataBaseSchema.TrackEntry.COLUMN_NAME_DISTANCE_KM,
+                TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_START,
+                TrackDataBaseSchema.TrackEntry.COLUMN_NAME_TIME_END
+        };
 
         assertArrayEquals(c.getColumnNames(), columNames);
         assertEquals(c.getCount(), 0);

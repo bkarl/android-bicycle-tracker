@@ -41,7 +41,8 @@ public class DistanceCalculatorTest {
         distanceTracker.addNewTrackedLocation(locB);
         float result[] = new float[] {0,0,0};
         Location.distanceBetween(locA.getLatitude(), locA.getLongitude(), locB.getLatitude(), locB.getLongitude(), result);
-        expectedDistanceDay = result[0];
+        expectedDistanceDay = result[0]/1000.0f;
+        distanceTracker.commitAccumulatedTrack();
     }
 
     @Test
