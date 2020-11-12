@@ -11,28 +11,48 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivitySettings extends AppCompatActivity {
 
-    private SharedPreferences sharedPref;
-    private EditText editText;
+    private EditText txtWeekyGoal;
+    private SettingsManager settingsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        sharedPref = getSharedPreferences("BicycleTrackerPrefs", Context.MODE_PRIVATE);
+        settingsManager = new SettingsManager(this);
 
-        int weeklyGoal = sharedPref.getInt("weeklyGoal",100);
-        editText = (EditText) findViewById(R.id.settingsGoal);
-        editText.setText(Integer.toString(weeklyGoal));
+        int weeklyGoal = settingsManager.getWeeklyGoalInKm();
+        txtWeekyGoal = (EditText) findViewById(R.id.settingsGoal);
+        txtWeekyGoal.setText(Integer.toString(weeklyGoal));
+
+        populateBiasFieldsPerDay();
 
         TextView licenseLauncher = findViewById(R.id.licenseLauncher);
         licenseLauncher.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void populateBiasFieldsPerDay() {
+        EditText txtBiasKm;
+        for (Weekday w : Weekday.values()) {
+            float bias_km = settingsManager.getBiasDistanceForDay(w);
+            txtBiasKm = (EditText) findViewById(w.getRessourceID());
+            txtBiasKm.setText(Float.toString(bias_km));
+        }
+    }
+
+    private void saveChangedBiassesToSettings() {
+        EditText txtBiasKm;
+        for (Weekday w : Weekday.values()) {
+            txtBiasKm = (EditText) findViewById(w.getRessourceID());
+            settingsManager.setBiasDistanceForDay(w, Float.parseFloat(txtBiasKm.getText().toString()));
+        }
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("weeklyGoal", Integer.parseInt(editText.getText().toString()));
-        editor.commit();
+        settingsManager.setWeeklyGoalInKm(Integer.parseInt(txtWeekyGoal.getText().toString()));
+        saveChangedBiassesToSettings();
+        settingsManager.commitChanges();
     }
 }
