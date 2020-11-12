@@ -26,6 +26,7 @@ public class FragmentPiechartWeek extends TimeDependentFragment {
     private double distanceWeekInKm;
     private float weeklyGoal;
     private PieChart pc;
+    private SettingsManager settingsManager;
 
     public FragmentPiechartWeek() {
         // Required empty public constructor
@@ -52,6 +53,8 @@ public class FragmentPiechartWeek extends TimeDependentFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.settingsManager = new SettingsManager(getContext());
+
         View rootView = inflater.inflate(R.layout.fragment_tracks_week_piechart, container, false);
         txtDistance = (TextView) rootView.findViewById(R.id.txtDistance);
         txtWeekorDate  = (TextView) rootView.findViewById(R.id.headlineDistanceWeek);
@@ -86,13 +89,16 @@ public class FragmentPiechartWeek extends TimeDependentFragment {
     private void calculateDistanceOfCurrentWeek() {
         DistanceCalculator distanceCalculator = new DistanceCalculator(this.getContext());
         distanceWeekInKm = distanceCalculator.getDistanceForWeek(currentWeek);
+        for (Weekday w : Weekday.values()) {
+            distanceWeekInKm += settingsManager.getBiasDistanceForDay(w);
+        }
         distanceWeekInKm = Math.round(distanceWeekInKm * 100.0) / 100.0;
+
     }
 
     private void getWeeklyDistanceGoalFromSettings()
     {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("BicycleTrackerPrefs",Context.MODE_PRIVATE);
-        this.weeklyGoal = (float)sharedPref.getInt("weeklyGoal",100);
+        this.weeklyGoal = (float)settingsManager.getWeeklyGoalInKm();
     }
 
     @Override
