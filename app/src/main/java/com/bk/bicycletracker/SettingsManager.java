@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 public class SettingsManager {
 
     private SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
     public SettingsManager(Context context){
-        this. sharedPref = context.getSharedPreferences("BicycleTrackerPrefs", Context.MODE_PRIVATE);
+        this.sharedPref = context.getSharedPreferences("BicycleTrackerPrefs", Context.MODE_PRIVATE);
         this.editor = sharedPref.edit();
     }
 
