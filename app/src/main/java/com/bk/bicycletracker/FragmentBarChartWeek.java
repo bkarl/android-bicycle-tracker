@@ -2,7 +2,6 @@ package com.bk.bicycletracker;
 
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -13,21 +12,10 @@ import android.widget.TextView;
 
 import com.bk.bicycletracker.DatabaseOperations.DistanceCalculator;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.LinkedList;
 
 
 public class FragmentBarChartWeek extends TimeDependentFragment {
@@ -45,8 +33,15 @@ public class FragmentBarChartWeek extends TimeDependentFragment {
 
     private void fillBarChart()
     {
-        BarChartFiller barChartFiller = new BarChartFiller(barChart);
-        float totalWeek = barChartFiller.fillWeeklyData(getContext(), (Calendar)this.currentWeek.clone());
+        DistanceCalculator distanceCalculator =  new DistanceCalculator(getContext());
+        SettingsManager settingsManager = new SettingsManager(getContext());
+
+        BarChartFiller barChartFiller = new BarChartFiller(distanceCalculator, settingsManager);
+        BarchartDrawer barchartDrawer = new BarchartDrawer(barChart);
+        LinkedList<BarEntry> entries = new LinkedList<>();
+
+        float totalWeek = barChartFiller.generateBarChartEntries((Calendar)this.currentWeek.clone(), entries);
+        barchartDrawer.drawData(entries);
         txtDistanceWeek.setText(Math.round(totalWeek * 100.0)/100.0 + " km");
     }
 
